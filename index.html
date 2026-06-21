@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Actino · 作品集</title>
+
+    <!-- ===== 字体：使用 Inter 提升质感 ===== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ============================================================
+               1. 全局重置 + 灰色系统（从 Nexmoe 逆向提取）
+               ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            background-color: #171716;
+            /* 核心：暖调深灰 */
+            color: #e8e8e8;
+            /* 默认文字色：亮灰 */
+            font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+            line-height: 24px;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            /* 防止横向溢出 */
+        }
+
+        /* ===== 2. 自定义鼠标样式（入口：替换图片路径即可） ===== */
+        body {
+            /* 
+               把下面的 'cursor.png' 换成你自己的 32x32 光标图片
+               后面的 16 16 是点击热区（中心点）
+            */
+            /* cursor: url('cursor.png') 16 16, auto; */
+
+            /* 临时用系统十字准星，方便你看到效果 */
+            cursor: crosshair;
+        }
+
+        /* ===== 3. 容器：核心排版骨架 ===== */
+        .container {
+            max-width: 672px;
+            /* max-w-2xl 核心！内容不占满屏 */
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 16px;
+            /* px-4 移动端 */
+            padding-right: 16px;
+            padding-top: 48px;
+            padding-bottom: 48px;
+        }
+
+        /* ===== 4. 响应式：桌面端留白更宽 ===== */
+        @media (min-width: 768px) {
+            .container {
+                padding-left: 32px;
+                /* md:px-8 */
+                padding-right: 32px;
+                padding-top: 72px;
+                padding-bottom: 72px;
+            }
+        }
+
+        /* ===== 5. 主标题 ===== */
+        .main-title {
+            font-size: 48px;
+            /* text-5xl */
+            font-weight: 700;
+            /* font-bold */
+            letter-spacing: -0.04em;
+            /* tracking-tighter */
+            color: #ffffff;
+            margin-top: 32px;
+            /* 与上方水印拉开距离 */
+            line-height: 1.1;
+        }
+
+        /* ===== 6. 副标题 / 简介 ===== */
+        .sub-title {
+            font-size: 20px;
+            /* 略小于原版，更现代 */
+            font-weight: 400;
+            color: #a1a1aa;
+            /* text-zinc-400 */
+            margin-top: 16px;
+            max-width: 540px;
+            line-height: 1.6;
+        }
+
+        /* ===== 7. 数据看板（网格布局） ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            /* 移动端单列 */
+            gap: 32px 40px;
+            margin-top: 48px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 40px;
+        }
+
+        @media (min-width: 640px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                /* sm: 双列 */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+                /* lg: 四列 */
+            }
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-size: 40px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #71717a;
+            /* text-zinc-500 */
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-weight: 500;
+        }
+
+        /* ===== 8. 背景水印（半透明超大文字） ===== */
+        .watermark {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            /* 限制高度避免撑爆 */
+            overflow: hidden;
+            pointer-events: none;
+            /* 让鼠标穿透，不干扰点击 */
+            user-select: none;
+            margin-bottom: -40px;
+            /* 向上收缩，让主标题靠上 */
+        }
+
+        .watermark svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .watermark text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            fill: #3a3a3a;
+            /* 比背景亮一点，隐约可见 */
+            fill-opacity: 0.15;
+            letter-spacing: 0.1em;
+        }
+
+        /* ===== 9. 响应式微调：小屏水印缩小 ===== */
+        @media (max-width: 640px) {
+            .watermark {
+                height: 72px;
+                margin-bottom: -20px;
+            }
+            .main-title {
+                font-size: 32px;
+            }
+            .stat-number {
+                font-size: 30px;
+            }
+        }
+
+        /* ===== 10. 页脚 ===== */
+        .footer {
+            margin-top: 64px;
+            padding: 32px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            font-size: 14px;
+            color: #52525b;
+        }
+
+        /* ===== 11. 按钮（可选，留作扩展） ===== */
+        .btn {
+            display: inline-block;
+            padding: 10px 24px;
+            border-radius: 9999px;
+            background-color: rgba(255, 255, 255, 0.06);
+            color: #e8e8e8;
+            font-weight: 500;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .btn:hover {
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============================================================
+    主容器
+    ============================================================ -->
+    <div class="container">
+
+        <!-- ===== 水印（你的名字 Actino） ===== -->
+        <div class="watermark">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                <text x="0" y="100" font-size="140" font-weight="700" letter-spacing="8">Actino</text>
+            </svg>
+        </div>
+
+        <!-- ===== 主标题 ===== -->
+        <h1 class="main-title">
+            Building with intent.
+            <!-- 占位标题，你随时可以改 -->
+        </h1>
+
+        <!-- ===== 简介文字 ===== -->
+        <p class="sub-title">
+            Turning rough ideas into products people can actually use.
+            <br />
+            <span style="color:#71717a; font-size:16px; display:inline-block; margin-top:4px;">
+                Designer · Developer · Creator
+            </span>
+        </p>
+
+        <!-- ===== 数据看板 ===== -->
+        <div class="stats-grid" id="statsGrid">
+
+            <div class="stat-item">
+                <div class="stat-number" data-target="33400">0</div>
+                <div class="stat-label">GitHub Stars</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-number" data-target="50000">0</div>
+                <div class="stat-label">Max Users</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-number" data-target="13400">0</div>
+                <div class="stat-label">Commits</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-number" data-target="298">0</div>
+                <div class="stat-label">Projects</div>
+            </div>
+
+        </div>
+
+        <!-- ===== 页脚（放你的社交链接或版权） ===== -->
+        <div class="footer">
+            <span style="color:#3f3f46;">© 2026 Actino · Built with <span style="color:#71717a;">灰</span></span>
+            <br />
+            <span style="font-size:12px; color:#3f3f46; margin-top:4px; display:inline-block;">
+                ✦ 自定义鼠标 · 动态数字滚动 ✦
+            </span>
+        </div>
+
+    </div>
+
+
+    <!-- ============================================================
+    JavaScript：数字滚动动画
+    ============================================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // 获取所有需要滚动的数字元素
+            const statNumbers = document.querySelectorAll('.stat-number');
+
+            // 存储每个数字的目标值
+            const targets = [];
+            const elements = [];
+
+            statNumbers.forEach(el => {
+                const target = parseInt(el.getAttribute('data-target'), 10);
+                if (!isNaN(target)) {
+                    targets.push(target);
+                    elements.push(el);
+                    el.textContent = '0'; // 确保初始为 0
+                }
+            });
+
+            // 如果没有任何数字，直接返回
+            if (elements.length === 0) return;
+
+            // 动画参数
+            const duration = 2000; // 2 秒完成
+            const startTime = performance.now();
+
+            function easeOutCubic(t) {
+                // 平滑缓出函数
+                return 1 - Math.pow(1 - t, 3);
+            }
+
+            function updateNumbers(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1); // 0 → 1
+                const easedProgress = easeOutCubic(progress);
+
+                // 更新每个数字
+                for (let i = 0; i < elements.length; i++) {
+                    const target = targets[i];
+                    const current = Math.round(easedProgress * target);
+                    // 带千位分隔符（可选）
+                    elements[i].textContent = current.toLocaleString();
+                }
+
+                // 如果还没结束，继续下一帧
+                if (progress < 1) {
+                    requestAnimationFrame(updateNumbers);
+                } else {
+                    // 最终确保精确到达目标值
+                    for (let i = 0; i < elements.length; i++) {
+                        elements[i].textContent = targets[i].toLocaleString();
+                    }
+                }
+            }
+
+            // 启动动画（页面加载后延迟 300ms，让视觉先稳定）
+            setTimeout(() => {
+                requestAnimationFrame(updateNumbers);
+            }, 300);
+
+        })();
+    </script>
+
+</body>
+</html>
